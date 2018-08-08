@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/issues")
+@RequestMapping("/api/issue")
 class IssueController(private val issueService: IssueService){
 
     @RequestMapping(method = [(RequestMethod.GET)])

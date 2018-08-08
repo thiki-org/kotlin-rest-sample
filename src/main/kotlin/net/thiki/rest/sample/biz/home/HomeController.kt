@@ -19,7 +19,7 @@ class HomeController {
 
         return mapOf(
                 "home" to buildUri(req, "/api/home"),
-                "activities" to buildUri(req, "/api/activities")
+                "issue" to buildUri(req, "/api/issue")
         )
     }
 

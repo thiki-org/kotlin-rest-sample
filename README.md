@@ -1,6 +1,10 @@
 kotlin-rest-sample
 ==================
 
+A rest web service sample writen in **kotlin** and based on **spring-boot**.
+
+
+
 # Guide to installation
 
 ## install gradle
@@ -35,6 +39,6 @@ gradle bootRun
 
 ## check it works
 
-Just open http://localhost:8080/api/issues in your browser.
+Just open http://localhost:8080/api/issue in your browser.
 
 ## write something and enjoy.
