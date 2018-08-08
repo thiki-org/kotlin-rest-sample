@@ -9,4 +9,7 @@ interface IssueRepo{
     @Select("select * from `tms_issue`")
     fun findAllIssue(): List<Issue>
 
+    @Select("select * from `tms_issue` where reporter = (select id from tms_user where `key` = #{reporterKey})")
+    fun searchByReporter(reporterKey: String): List<Issue>
+
 }

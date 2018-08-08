@@ -5,13 +5,13 @@ DROP TABLE IF EXISTS `tms_issue`;
 CREATE TABLE `tms_issue` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'pk',
   `key` varchar(128) NOT NULL DEFAULT '' COMMENT 'human-readable-key',
-  `reporter` int(11) NOT NULL COMMENT 'reporter''s user-id',
+  `reporter` int(11) unsigned NOT NULL COMMENT 'reporter''s user-id',
   `summary` varchar(512) NOT NULL DEFAULT '' COMMENT 'short summary which will be displayed in cards',
   `description` text COMMENT 'detail content',
-  `assignee` int(11) DEFAULT NULL COMMENT 'user-id who will work for this issue',
-  `status` int(11) DEFAULT NULL COMMENT 'status-id',
+  `assignee` int(11) unsigned DEFAULT NULL COMMENT 'user-id who will work for this issue',
+  `status` int(11) unsigned DEFAULT NULL COMMENT 'status-id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='an issue is a task.';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='an issue is a task.';
 
 INSERT INTO `tms_issue` (`id`, `key`, `reporter`, `summary`, `description`, `assignee`, `status`)
 VALUES
@@ -28,7 +28,7 @@ CREATE TABLE `tms_user` (
   `key` varchar(256) NOT NULL DEFAULT '' COMMENT 'human-readable-key',
   `locale` varchar(128) DEFAULT NULL COMMENT 'for i18n',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='user';
+) ENGINE=InnoDB AUTO_INCREMENT=10004 DEFAULT CHARSET=utf8mb4 COMMENT='user';
 
 INSERT INTO `tms_user` (`id`, `name`, `email`, `key`, `locale`)
 VALUES
