@@ -15,7 +15,9 @@ class IssueService(private val issueRepo: IssueRepo){
 
     fun searchByReporter(reporterKey: String): List<Issue> {
         return issueRepo.searchByReporter(reporterKey)
-
     }
 
+    fun searchDetailByReporter(reporterKey: String): List<Issue> {
+        return issueRepo.searchDetailByReporter(reporterKey)
+    }
 }

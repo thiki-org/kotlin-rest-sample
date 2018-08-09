@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="net.thiki.rest.sample.biz.issue.IssueRepo">
+<mapper namespace="net.thiki.rest.sample.mybatis.IssueMapperImpl">
     <resultMap id="issueMap" type="net.thiki.rest.sample.biz.issue.Issue">
         <constructor>
             <idArg column="id" name="id"/>

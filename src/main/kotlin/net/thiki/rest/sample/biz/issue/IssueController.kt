@@ -24,7 +24,7 @@ class IssueController(private val issueService: IssueService){
     @RequestMapping(value = "/search", method = [(RequestMethod.GET)])
     fun search(@RequestParam("reporter") reporterKey: String): List<Issue>{
 
-        return issueService.searchByReporter(reporterKey)
+        return issueService.searchDetailByReporter(reporterKey)
     }
 
 //    @RequestMapping(method = [(RequestMethod.GET)])

@@ -11,10 +11,28 @@
 
 * [x] trying to use both xml and annotation in one mapper.
 
-## idea: using Kotlin ``Delegation`` for ``Repository`` to wrap the mybatis mapper interface and add some factory jobs needed.
+## idea: using Kotlin ``Delegation`` for ``Repository`` to wrap the mybatis mapper interface and add some factory jobs if needed.
 
 [Kotlin Delegation](https://kotlinlang.org/docs/reference/delegation.html)
 
+Theoretically, the Repository interface should extend Mapper **interface**, but mybatis use this interface(say IssueMapper) as the placeholder for implementation of sqlmap. As a result of that, the domain package 'package net.thiki.rest.sample.biz.issue' will depend on the infrastructure package 'net.thiki.rest.sample.mybatis', which is unacceptable to me.
+
+So, I write 2 interfaces in one file in domain package, and 2 implementations in other file in infrastructure package. As a domain client calling the interfaces will not have to "know" the detail of implementations, which is in infrastructure package.
+
+Now I can implement the Repository using Delegation "by Mapper".
+
+```Kotlin
+@Component
+class IssueRepoImpl(@Autowired private val mapper: IssueMapper): IssueMapper by mapper, IssueRepo {
+
+    override fun searchDetailByReporter(reporterKey: String): List<Issue> {
+        val mapperResult = mapper.searchByReporter(reporterKey)
+        //do more jobs than mapper here
+
+        return mapperResult
+    }
+}
+```
 
 ## spring mvc @RequestParam usage
 
