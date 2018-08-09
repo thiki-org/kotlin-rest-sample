@@ -2,10 +2,13 @@
 # work log
 
 ## TODO
-* [ ] search issue with reporter
+
 * [ ] include the user detail information of reporter and assignee into the ``issue`` entity response
 
+
 # 2018-08-08
+
+* [x] search issue with reporter
 
 ## How jira JQL was implemented
 
