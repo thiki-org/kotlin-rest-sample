@@ -11,7 +11,7 @@ class IssueController(private val issueService: IssueService){
 
     @RequestMapping(method = [(RequestMethod.GET)])
     fun findAll(
-            @RequestParam(value = "status", required = false) status: Long
+            @RequestParam(value = "status", required = false) status: Long?
     ): Any {
         return if (status == null){
             issueService.findAll()

@@ -10,11 +10,20 @@
 # 2018-08-09
 
 ## spring mvc @RequestParam usage
-[usage](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/spring-mvc-request-param.html)]
+
+I follow [this sage](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/spring-mvc-request-param.html)
+
 but it throw an IllegalStateException:
 ```
 Optional long parameter 'status' is present but cannot be translated into a null value due to being declared as a primitive type. Consider declaring it as object wrapper for the corresponding primitive type.
 ```
+
+then I check the Kotlin Ref [Null Safety](https://kotlinlang.org/docs/reference/null-safety.html) and [java interop](https://kotlinlang.org/docs/reference/java-interop.html).
+and found the reason:
+Kotlin's ``Long`` will be mapped to java's ``long`` and ``Long?`` well be mapped to ``Long``.
+So, ``status: Long`` should change to ``status: Long?``.
+
+It works.
 
 ## using spring-boot-starter
 [spring boot mybatis sample, in Chinese](http://www.ityouknow.com/springboot/2016/11/06/spring-boo-mybatis.html)
