@@ -3,6 +3,7 @@
 
 ## TODO
 
+* [ ] refactoring: segregate the Repository and Mapper
 * [ ] include the user detail information of reporter and assignee into the ``issue`` entity response
 
 
