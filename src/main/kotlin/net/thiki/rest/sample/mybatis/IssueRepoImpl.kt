@@ -26,20 +26,12 @@ class IssueRepoImpl(@Autowired private val mapper: IssueMapper): IssueMapper by 
 interface IssueMapperImpl: IssueMapper {
 
     @Select("select * from `tms_issue`")
-    @ConstructorArgs(
-            Arg(column = "id", name = "id", id = true),
-            Arg(column = "key", name = "key"),
-            Arg(column = "reporter", name = "reporter"),
-            Arg(column = "summary", name = "summary"),
-            Arg(column = "description", name = "description"),
-            Arg(column = "assignee", name = "assignee"),
-            Arg(column = "status", name = "status")
-    )
     override fun findAllIssue(): List<Issue>
 
     @Select("select * from `tms_issue` where reporter = (select id from tms_user where `key` = #{reporterKey})")
     override fun searchByReporter(reporterKey: String): List<Issue>
 
+    @Select("select * from `tms_issue` where status = '10002'")
     override fun findOpenIssues(): List<Issue>
 
 }

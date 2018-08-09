@@ -3,19 +3,19 @@
 
 ## TODO
 
-* [ ] refactoring: segregate the Repository and Mapper
 * [ ] include the user detail information of reporter and assignee into the ``issue`` entity response
 
 
 # 2018-08-09
 
 * [x] trying to use both xml and annotation in one mapper.
+* [x] refactoring: segregate the Repository and Mapper
 
 ## idea: using Kotlin ``Delegation`` for ``Repository`` to wrap the mybatis mapper interface and add some factory jobs if needed.
 
 [Kotlin Delegation](https://kotlinlang.org/docs/reference/delegation.html)
 
-Theoretically, the Repository interface should extend Mapper **interface**, but mybatis use this interface(say IssueMapper) as the placeholder for implementation of sqlmap. As a result of that, the domain package 'package net.thiki.rest.sample.biz.issue' will depend on the infrastructure package 'net.thiki.rest.sample.mybatis', which is unacceptable to me.
+Theoretically, the Repository interface should extend Mapper **interface**, but mybatis use this interface(say IssueMapper) as the placeholder for implementation of sqlmap. As a result of that, the domain package 'net.thiki.rest.sample.biz.issue' will depend on the infrastructure package 'net.thiki.rest.sample.mybatis', which is unacceptable to me.
 
 So, I write 2 interfaces in one file in domain package, and 2 implementations in other file in infrastructure package. As a domain client calling the interfaces will not have to "know" the detail of implementations, which is in infrastructure package.
 
@@ -36,7 +36,7 @@ class IssueRepoImpl(@Autowired private val mapper: IssueMapper): IssueMapper by 
 
 ## spring mvc @RequestParam usage
 
-I follow [this sage](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/spring-mvc-request-param.html)
+I follow [this usage](https://www.logicbig.com/tutorials/spring-framework/spring-web-mvc/spring-mvc-request-param.html)
 
 but it throw an IllegalStateException:
 ```

@@ -17,10 +17,5 @@
         <id column="id" property="id" jdbcType="BIGINT" javaType="long"/>
         <!--<result column="nick_name" property="nickName" jdbcType="VARCHAR" />-->
     </resultMap>
-    <select id="findOpenIssues" resultMap="issueMap">
-        SELECT *
-        FROM `tms_issue`
-        WHERE status = '10002'
-    </select>
 
 </mapper>
