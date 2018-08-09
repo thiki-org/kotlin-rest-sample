@@ -1,4 +1,8 @@
-<mapper namespace="net.thiki.rest.sample.biz.issue.IssueRepo">
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="net.thiki.rest.sample.biz.issue.IssueExtRepo">
     <resultMap id="issueMap" type="net.thiki.rest.sample.biz.issue.Issue">
         <constructor>
             <idArg column="id" name="id"/>
@@ -13,7 +17,7 @@
         <id column="id" property="id" jdbcType="BIGINT" javaType="long"/>
         <!--<result column="nick_name" property="nickName" jdbcType="VARCHAR" />-->
     </resultMap>
-    <select id="findOpenIssue" resultMap="issueMap">
+    <select id="findOpenIssues" resultMap="issueMap">
         SELECT *
         FROM `tms_issue`
         WHERE status = '10002'

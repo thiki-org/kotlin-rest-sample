@@ -8,5 +8,5 @@ spring:
     driver-class-name: 'com.mysql.jdbc.Driver'
 
 mybatis:
-  config-locations: 'classpath:mybatis/mybatis-config.xml'
+  config-location: 'classpath:mybatis/mybatis-config.xml'
   mappers-locations: 'classpath:mybatis/mapper/*.xml'

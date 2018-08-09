@@ -3,18 +3,18 @@ package net.thiki.rest.sample.biz.issue
 import org.springframework.stereotype.Service
 
 @Service
-class IssueService(private val IssueRepo: IssueRepo){
+class IssueService(private val issueRepo: IssueRepo, private val issueExtRepo: IssueExtRepo){
 
     fun findAll(): List<Issue> {
-        return IssueRepo.findAllIssue()
+        return issueRepo.findAllIssue()
     }
 
     fun findOpenIssues(): List<Issue> {
-        return IssueRepo.findOpenIssues()
+        return issueExtRepo.findOpenIssues()
     }
 
     fun searchByReporter(reporterKey: String): List<Issue> {
-        return IssueRepo.searchByReporter(reporterKey)
+        return issueRepo.searchByReporter(reporterKey)
 
     }
 
