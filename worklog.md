@@ -3,11 +3,17 @@
 
 ## TODO
 
-* [ ] trying to use both xml and annotation in one mapper.
 * [ ] include the user detail information of reporter and assignee into the ``issue`` entity response
 
 
 # 2018-08-09
+
+* [x] trying to use both xml and annotation in one mapper.
+
+## idea: using Kotlin ``Delegation`` for ``Repository`` to wrap the mybatis mapper interface and add some factory jobs needed.
+
+[Kotlin Delegation](https://kotlinlang.org/docs/reference/delegation.html)
+
 
 ## spring mvc @RequestParam usage
 
