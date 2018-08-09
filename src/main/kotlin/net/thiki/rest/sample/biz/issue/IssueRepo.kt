@@ -10,7 +10,7 @@ interface IssueRepo{
 
     @Select("select * from `tms_issue`")
     @ConstructorArgs(
-            Arg(column = "id", name = "id"),
+            Arg(column = "id", name = "id", id = true),
             Arg(column = "key", name = "key"),
             Arg(column = "reporter", name = "reporter"),
             Arg(column = "summary", name = "summary"),
@@ -23,4 +23,5 @@ interface IssueRepo{
     @Select("select * from `tms_issue` where reporter = (select id from tms_user where `key` = #{reporterKey})")
     fun searchByReporter(reporterKey: String): List<Issue>
 
+    fun findOpenIssues(): List<Issue>
 }

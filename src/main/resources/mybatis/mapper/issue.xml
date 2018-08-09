@@ -1,0 +1,22 @@
+<mapper namespace="net.thiki.rest.sample.biz.issue.IssueRepo">
+    <resultMap id="issueMap" type="net.thiki.rest.sample.biz.issue.Issue">
+        <constructor>
+            <idArg column="id" name="id"/>
+            <arg column="key" name="key"/>
+            <arg column="reporter" name="reporter"/>
+            <arg column="summary" name="summary"/>
+            <arg column="description" name="description"/>
+            <arg column="assignee" name="assignee"/>
+            <arg column="status" name="status"/>
+        </constructor>
+
+        <id column="id" property="id" jdbcType="BIGINT" javaType="long"/>
+        <!--<result column="nick_name" property="nickName" jdbcType="VARCHAR" />-->
+    </resultMap>
+    <select id="findOpenIssue" resultMap="issueMap">
+        SELECT *
+        FROM `tms_issue`
+        WHERE status = '10002'
+    </select>
+
+</mapper>

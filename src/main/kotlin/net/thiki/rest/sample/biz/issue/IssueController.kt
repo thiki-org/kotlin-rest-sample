@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.RestController
 class IssueController(private val issueService: IssueService){
 
     @RequestMapping(method = [(RequestMethod.GET)])
-    fun findAll(): Any {
-        val result = issueService.findAll()
-        return result
+    fun findAll(
+            @RequestParam(value = "status", required = false) status: Long
+    ): Any {
+        return if (status == null){
+            issueService.findAll()
+        }else{
+            issueService.findOpenIssues()
+        }
     }
 
 
