@@ -20,7 +20,10 @@
   - ``<arg resultMap="XXX"></arg>`` in ``<constructor/>`` element in sqlmap xml
   - using constructor arg injection in Kotlin code
 
-I prefer solution B because it can use `val` instead of `var` for the "reporter" to minimalize the visibility. Remember "Don't talk to a stranger" Principle? I don't want the client code to use ``issue.reporter.doA()`` without any constraint.
+I prefer solution B because it can use `val` instead of `lateinit var` to make the "reporter" property immutable.
+
+Remember "Don't talk to a stranger" Principle? If needed, I can even use `private val` to prevent client codes from calling ``issue.reporter.doA()``. Of cause, reporter's information should be known by client, so I just make it `val`.
+
 
 # 2018-08-09
 

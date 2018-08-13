@@ -7,7 +7,7 @@
         <constructor>
             <idArg column="id" name="id"/>
             <arg column="key" name="key"/>
-            <arg column="reporter" name="reporter"/>
+            <arg column="reporter" name="reporter" resultMap="userMap"/>
             <arg column="summary" name="summary"/>
             <arg column="description" name="description"/>
             <arg column="assignee" name="assignee"/>
@@ -15,7 +15,36 @@
         </constructor>
 
         <id column="id" property="id" jdbcType="BIGINT" javaType="long"/>
-        <!--<result column="nick_name" property="nickName" jdbcType="VARCHAR" />-->
     </resultMap>
+
+    <resultMap id="userMap" type="net.thiki.rest.sample.biz.issue.User">
+        <constructor>
+            <idArg column="reporter_id" name="id"/>
+            <arg column="reporter_name" name="name"/>
+            <arg column="reporter_key" name="key" />
+            <arg column="reporter_email" name="email"/>
+            <arg column="reporter_locale" name="locale"/>
+        </constructor>
+    </resultMap>
+
+
+    <select id="findAllIssue" resultMap="issueMap">
+        select
+            i.`id` as `id`,
+            i.`key` as `key`,
+            i.summary as summary,
+            i.description as description,
+            i.assignee as assignee,
+            i.status as status,
+
+            r.`id` as reporter_id,
+            r.name as reporter_name,
+            r.`key` as reporter_key,
+            r.email as reporter_email,
+            r.locale as reporter_locale
+        from `tms_issue` i
+            left outer join `tms_user` r on i.reporter = r.id
+        where 1=1
+    </select>
 
 </mapper>
