@@ -5,46 +5,105 @@
 <mapper namespace="net.thiki.rest.sample.mybatis.IssueMapperImpl">
     <resultMap id="issueMap" type="net.thiki.rest.sample.biz.issue.Issue">
         <constructor>
-            <idArg column="id" name="id"/>
-            <arg column="key" name="key"/>
-            <arg column="reporter" name="reporter" resultMap="userMap"/>
-            <arg column="summary" name="summary"/>
-            <arg column="description" name="description"/>
-            <arg column="assignee" name="assignee"/>
+            <idArg column="issue.id" name="id"/>
+            <arg column="issue.key" name="key"/>
+            <arg name="reporter" resultMap="reporterMap"/>
+            <arg column="issue.summary" name="summary"/>
+            <arg column="issue.description" name="description"/>
+            <arg name="assignee" resultMap="assigneeMap"/>
             <arg column="status" name="status"/>
         </constructor>
 
         <id column="id" property="id" jdbcType="BIGINT" javaType="long"/>
     </resultMap>
 
-    <resultMap id="userMap" type="net.thiki.rest.sample.biz.issue.User">
+    <resultMap id="reporterMap" type="net.thiki.rest.sample.biz.issue.User">
         <constructor>
-            <idArg column="reporter_id" name="id"/>
-            <arg column="reporter_name" name="name"/>
-            <arg column="reporter_key" name="key" />
-            <arg column="reporter_email" name="email"/>
-            <arg column="reporter_locale" name="locale"/>
+            <idArg column="reporter.id" name="id"/>
+            <arg column="reporter.name" name="name"/>
+            <arg column="reporter.key" name="key" />
+            <arg column="reporter.email" name="email"/>
+            <arg column="reporter.locale" name="locale"/>
         </constructor>
     </resultMap>
 
+    <resultMap id="assigneeMap" type="net.thiki.rest.sample.biz.issue.User">
+        <constructor>
+            <idArg column="assignee.id" name="id"/>
+            <arg column="assignee.name" name="name"/>
+            <arg column="assignee.key" name="key" />
+            <arg column="assignee.email" name="email"/>
+            <arg column="assignee.locale" name="locale"/>
+        </constructor>
+    </resultMap>
+
+    <sql id="userColumns">
+        ${alias}.id,
+        ${alias}.name,
+        ${alias}.key,
+        ${alias}.email,
+        ${alias}.locale
+    </sql>
+
+    <sql id="issueColumns">
+        ${alias}.id,
+        ${alias}.key,
+        ${alias}.summary,
+        ${alias}.description,
+        ${alias}.status
+    </sql>
+    <!--i.`id` as `id`,-->
+    <!--i.`key` as `key`,-->
+    <!--i.summary as summary,-->
+    <!--i.description as description,-->
+    <!--i.status as status,-->
+    <!--<include refid="issueColumns"><property name="alias" value="issue" /></include>-->
+
+    <!--<include refid="userColumns"><property name="alias" value="assignee" /></include>-->
+    <!--,-->
+    <!--<include refid="userColumns"><property name="alias" value="reporter" /></include>-->
 
     <select id="findAllIssue" resultMap="issueMap">
         select
-            i.`id` as `id`,
-            i.`key` as `key`,
-            i.summary as summary,
-            i.description as description,
-            i.assignee as assignee,
-            i.status as status,
 
-            r.`id` as reporter_id,
-            r.name as reporter_name,
-            r.`key` as reporter_key,
-            r.email as reporter_email,
-            r.locale as reporter_locale
-        from `tms_issue` i
-            left outer join `tms_user` r on i.reporter = r.id
+        <include refid="issueColumns"><property name="alias" value="issue" /></include>
+        ,
+        <include refid="userColumns"><property name="alias" value="assignee" /></include>
+        ,
+        <include refid="userColumns"><property name="alias" value="reporter" /></include>
+
+        from `tms_issue` issue
+        left outer join `tms_user` reporter on issue.reporter = reporter.id
+        left outer join `tms_user` assignee on issue.assignee = assignee.id
         where 1=1
+
     </select>
+
+    <!--<select id="findAllIssue" resultMap="issueMap">-->
+        <!--select-->
+        <!--issue.id,-->
+        <!--issue.key,-->
+        <!--issue.summary,-->
+        <!--issue.description,-->
+        <!--issue.status-->
+        <!--,-->
+        <!--reporter.id,-->
+        <!--reporter.name,-->
+        <!--reporter.key,-->
+        <!--reporter.email,-->
+        <!--reporter.locale-->
+        <!--,-->
+        <!--assignee.id,-->
+        <!--assignee.name,-->
+        <!--assignee.key,-->
+        <!--assignee.email,-->
+        <!--assignee.locale-->
+
+        <!--from `tms_issue` issue-->
+            <!--left outer join `tms_user` reporter on issue.reporter = reporter.id-->
+            <!--left outer join `tms_user` assignee on issue.assignee = assignee.id-->
+        <!--where 1=1-->
+
+    <!--</select>-->
 
 </mapper>
