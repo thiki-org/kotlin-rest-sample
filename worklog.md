@@ -4,12 +4,66 @@
 ## TODO
 
 * [ ] include the user detail information of reporter and assignee into the ``issue`` entity response
+  - try to use constructor args to associate reporter
+* [ ] unit testing for sqlmap
 
+
+# 2018-08-13
+
+## the implementation for 'association' in sqlmap
+
+* solution A
+  - ``<association/>`` element in sqlmap xml
+  - using ``lateinit var xxx`` and property injection in Kotlin code
+
+* solution B
+  - ``<arg resultMap="XXX"></arg>`` in ``<constructor/>`` element in sqlmap xml
+  - using constructor arg injection in Kotlin code
+
+I prefer solution B because it can use `val` instead of `var` for the "reporter" to minimalize the visibility. Remember "Don't talk to a stranger" Principle? I don't want the client code to use ``issue.reporter.doA()`` without any constraint.
 
 # 2018-08-09
 
 * [x] trying to use both xml and annotation in one mapper.
 * [x] refactoring: segregate the Repository and Mapper
+
+## my best practice: mybatis annotation vs xml
+
+* simple sql, use annotation
+* resultMap and complex sql, especially joined queries, use xml
+
+## my best practice: use constructor instead of using field getter and setter.
+
+Java Bean specification is the worst thing to break the encapsulation. Some infrastructure like mybatis or protobuf needs Java Bean to get and set the data of an object, but if we can, avoid relying on the public getters and setters.
+
+```xml
+    <resultMap id="issueMap" type="net.thiki.rest.sample.biz.issue.Issue">
+        <constructor>
+            <idArg column="id" name="id"/>
+            <arg column="key" name="key"/>
+            <arg column="reporter" name="reporter"/>
+            <arg column="summary" name="summary"/>
+            <arg column="description" name="description"/>
+            <arg column="assignee" name="assignee"/>
+            <arg column="status" name="status"/>
+        </constructor>
+
+        <id column="id" property="id" jdbcType="BIGINT" javaType="long"/>
+        <!--<result column="nick_name" property="nickName" jdbcType="VARCHAR" />-->
+    </resultMap>
+```
+
+```Kotlin
+    constructor(id: Long, key: String, reporter: Long, summary: String, description: String?, assignee: Long?, status: Long?): this(id, key, reporter, summary){
+        this.description = description
+        this.assignee = assignee
+        this.status = status
+    }
+
+```
+
+The codes above are worthy.
+
 
 ## idea: using Kotlin ``Delegation`` for ``Repository`` to wrap the mybatis mapper interface and add some factory jobs if needed.
 
@@ -17,7 +71,7 @@
 
 Theoretically, the Repository interface should extend Mapper **interface**, but mybatis use this interface(say IssueMapper) as the placeholder for implementation of sqlmap. As a result of that, the domain package 'net.thiki.rest.sample.biz.issue' will depend on the infrastructure package 'net.thiki.rest.sample.mybatis', which is unacceptable to me.
 
-So, I write 2 interfaces in one file in domain package, and 2 implementations in other file in infrastructure package. As a domain client calling the interfaces will not have to "know" the detail of implementations, which is in infrastructure package.
+So, I write 2 interfaces in one file(IssueRepo.kt) in domain package, and 2 implementations in other file(IssueRepoImpl.kt) in infrastructure package. As a domain client calling the interfaces will not have to "know" the detail of implementations, which is in infrastructure package.
 
 Now I can implement the Repository using Delegation "by Mapper".
 
