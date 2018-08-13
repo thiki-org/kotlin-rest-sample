@@ -4,7 +4,8 @@
 ## TODO
 
 * [ ] include the user detail information of reporter and assignee into the ``issue`` entity response
-  - try to use constructor args to associate reporter
+  - [x] try to use constructor args to associate reporter
+  - [ ] make other mapper methods work.
 * [ ] unit testing for sqlmap
 
 
