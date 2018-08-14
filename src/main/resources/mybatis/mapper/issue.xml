@@ -52,18 +52,8 @@
         ${alias}.description,
         ${alias}.status
     </sql>
-    <!--i.`id` as `id`,-->
-    <!--i.`key` as `key`,-->
-    <!--i.summary as summary,-->
-    <!--i.description as description,-->
-    <!--i.status as status,-->
-    <!--<include refid="issueColumns"><property name="alias" value="issue" /></include>-->
 
-    <!--<include refid="userColumns"><property name="alias" value="assignee" /></include>-->
-    <!--,-->
-    <!--<include refid="userColumns"><property name="alias" value="reporter" /></include>-->
-
-    <select id="findAllIssue" resultMap="issueMap">
+    <sql id="issueSelect">
         select
 
         <include refid="issueColumns"><property name="alias" value="issue" /></include>
@@ -75,35 +65,20 @@
         from `tms_issue` issue
         left outer join `tms_user` reporter on issue.reporter = reporter.id
         left outer join `tms_user` assignee on issue.assignee = assignee.id
-        where 1=1
 
+    </sql>
+
+    <select id="findAllIssue" resultMap="issueMap">
+        <include refid="issueSelect" />
     </select>
 
-    <!--<select id="findAllIssue" resultMap="issueMap">-->
-        <!--select-->
-        <!--issue.id,-->
-        <!--issue.key,-->
-        <!--issue.summary,-->
-        <!--issue.description,-->
-        <!--issue.status-->
-        <!--,-->
-        <!--reporter.id,-->
-        <!--reporter.name,-->
-        <!--reporter.key,-->
-        <!--reporter.email,-->
-        <!--reporter.locale-->
-        <!--,-->
-        <!--assignee.id,-->
-        <!--assignee.name,-->
-        <!--assignee.key,-->
-        <!--assignee.email,-->
-        <!--assignee.locale-->
+    <select id="searchByReporter" resultMap="issueMap">
+        <include refid="issueSelect" />
+        where reporter.key = #{reporterKey}
+    </select>
 
-        <!--from `tms_issue` issue-->
-            <!--left outer join `tms_user` reporter on issue.reporter = reporter.id-->
-            <!--left outer join `tms_user` assignee on issue.assignee = assignee.id-->
-        <!--where 1=1-->
-
-    <!--</select>-->
-
+    <select id="findIssuesByStatus" resultMap="issueMap">
+        <include refid="issueSelect" />
+        where issue.status = #{status}
+    </select>
 </mapper>

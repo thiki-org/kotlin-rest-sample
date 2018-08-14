@@ -9,8 +9,8 @@ class IssueService(private val issueRepo: IssueRepo){
         return issueRepo.findAllIssue()
     }
 
-    fun findOpenIssues(): List<Issue> {
-        return issueRepo.findOpenIssues()
+    fun findIssuesByStatus(status: Long): List<Issue> {
+        return issueRepo.findIssuesByStatus(status)
     }
 
     fun searchByReporter(reporterKey: String): List<Issue> {

@@ -16,7 +16,7 @@ class IssueController(private val issueService: IssueService){
         return if (status == null){
             issueService.findAll()
         }else{
-            issueService.findOpenIssues()
+            issueService.findIssuesByStatus(status)
         }
     }
 
@@ -26,11 +26,5 @@ class IssueController(private val issueService: IssueService){
 
         return issueService.searchDetailByReporter(reporterKey)
     }
-
-//    @RequestMapping(method = [(RequestMethod.GET)])
-//    fun findAll(): HttpEntity<GeneralResource>? {
-//
-//        return null
-//    }
 
 }

@@ -3,11 +3,14 @@
 
 ## TODO
 
-* [ ] include the user detail information of reporter and assignee into the ``issue`` entity response
-  - [x] try to use constructor args to associate reporter
-  - [ ] make other mapper methods work.
 * [ ] unit testing for sqlmap
 
+
+# 2018-08-14
+
+* [x] include the user detail information of reporter and assignee into the ``issue`` entity response
+  - [x] try to use constructor args to associate reporter
+  - [x] make other mapper methods work.
 
 # 2018-08-13
 

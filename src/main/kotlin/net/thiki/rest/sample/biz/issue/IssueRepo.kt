@@ -9,7 +9,8 @@ interface IssueMapper{
 
     fun searchByReporter(reporterKey: String): List<Issue>
 
-    fun findOpenIssues(): List<Issue>
+
+    fun findIssuesByStatus(status :Long): List<Issue>
 }
 
 interface IssueRepo :IssueMapper{
