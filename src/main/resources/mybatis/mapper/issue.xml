@@ -67,6 +67,31 @@
         left outer join `tms_user` assignee on issue.assignee = assignee.id
 
     </sql>
+    <!--
+      select
+        issue.id,
+        issue.key,
+        issue.summary,
+        issue.description,
+        issue.status
+        ,
+        reporter.id,
+        reporter.name,
+        reporter.key,
+        reporter.email,
+        reporter.locale
+        ,
+        assignee.id,
+        assignee.name,
+        assignee.key,
+        assignee.email,
+        assignee.locale
+
+        from `tms_issue` issue
+            left outer join `tms_user` reporter on issue.reporter = reporter.id
+            left outer join `tms_user` assignee on issue.assignee = assignee.id
+        where 1=1
+    -->
 
     <select id="findAllIssue" resultMap="issueMap">
         <include refid="issueSelect" />

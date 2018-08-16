@@ -3,14 +3,104 @@
 
 ## TODO
 
-* [ ] unit testing for sqlmap
+* [ ] add user Resource, GET
+* [ ] add `self` ref to json response(HATEOAS)
 
+
+# 2018-08-15
+
+
+* [x] unit testing for sqlmap
+
+## [Resolve POJO constructor arguments by name rather than position](https://github.com/mybatis/mybatis-3/issues/721)
+
+> To reference constructor parameters by name, you can either 1) annotate parameters with @Param annotation or 2) compile with -parameters option.
+
+1. add in build.gradle:
+
+  ```
+  tasks.withType(JavaCompile) {
+      options.compilerArgs << '-parameters'
+  }
+  ```
+
+2. add in IntelliJ IDEA:
+
+  preference->Build,Execution,Deployment->Compiler->java Compiler:
+  Add an item in "Override compiler parameters per-module", here is: `` service --> "-parameters"``
+
+
+## gradle proxy settings
+
+* problem
+
+  I encounter the following message when using gradle:
+  ```
+   > Connect to d29vzk4ow07wi7.cloudfront.net:443 [d29vzk4ow07wi7.cloudfront.net/54.230.86.77, d29vzk4ow07wi7.cloudfront.net/54.230.86.206, d29vzk4ow07wi7.cloudfront.net/54.230.86.33, d29vzk4ow07wi7.cloudfront.net/54.230.86.64] failed: Read timed out
+  ```
+
+* solution
+
+  I think I probably need a HTTP proxy to circumvent the network blocking in my area of the internet.
+
+  See:
+
+  [Accessing the web through a HTTP proxy](https://docs.gradle.org/current/userguide/build_environment.html#sec:accessing_the_web_via_a_proxy)
+
+  and
+
+  [Gradle properties](https://docs.gradle.org/current/userguide/build_environment.html#sec:gradle_configuration_properties)
+
+  > The configuration is applied in following order (if an option is configured in multiple locations the last one wins):
+  > * gradle.properties in project root directory.
+  > * gradle.properties in GRADLE_USER_HOME directory.
+  > * system properties, e.g. when -Dgradle.user.home is set on the command line.
+
+  I added the proxy setting in ~/.gradle/gradle.properties.
+
+
+## add log4j2 dependency for test
+
+build.gradle:
+```
+test {
+    useJUnitPlatform()
+    systemProperty 'java.util.logging.manager', 'org.apache.logging.log4j.jul.LogManager'
+}
+dependencies {
+    //...
+    compile('org.apache.logging.log4j:log4j-jul:2.11.1')
+}
+```
+
+## [flyway: a database migration tool](https://flywaydb.org/)
 
 # 2018-08-14
 
 * [x] include the user detail information of reporter and assignee into the ``issue`` entity response
   - [x] try to use constructor args to associate reporter
   - [x] make other mapper methods work.
+
+## unit testing for sqlmap
+
+* [Best Practices for Unit Testing in Kotlin](https://blog.philipphauer.de/best-practices-unit-testing-kotlin/)
+* [Junit 5 configuration in gradle](https://junit.org/junit5/docs/current/user-guide/#running-tests-build-gradle)
+* [AssertJ](http://joel-costigliola.github.io/assertj/index.html)
+* [Mockk](https://mockk.io/) vs mokito?
+
+### `@Configuration` needs `open class` and `open methods`
+
+The blog "[spring-boot-configuration-in-kotlin](http://engineering.pivotal.io/post/spring-boot-configuration-in-kotlin/)" said:
+> The Configuration class must be declared open. This is because Spring Boot subclasses your configuration class but Kotlin makes them final by default.
+
+### JunitTestRunner have to do all things that `mybatis-spring-boot-autoconfigure` do
+
+see [mybatis-spring-boot-autoconfigure](http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-autoconfigure/)
+
+found [mybatis-spring-boot-test-autoconfigure/](http://www.mybatis.org/spring-boot-starter/mybatis-spring-boot-test-autoconfigure/)
+
+> It's the essential complex of the mybatis configurations which can't be avoid. -- joeaniu
+
 
 # 2018-08-13
 
@@ -26,7 +116,7 @@
 
 I prefer solution B because it can use `val` instead of `lateinit var` to make the "reporter" property immutable.
 
-Remember "Don't talk to a stranger" Principle? If needed, I can even use `private val` to prevent client codes from calling ``issue.reporter.doA()``. Of cause, reporter's information should be known by client, so I just make it `val`.
+Remember "Don't talk to a stranger" Principle? If needed, I can even use `private val` to prevent client codes from calling ``issue.reporter.doA()``. But here, reporter's information should be known by client, so I just make it `val`.
 
 
 # 2018-08-09

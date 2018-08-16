@@ -28,10 +28,12 @@ gradle build
   You can configure your db url in ``src/main/resources/application.yaml``.
 
 * run the init sql
+
   You can find the sql file in ``src/test/resources/init_db.sql``.
 
 
-## run the service 
+## run the service
+
 ```shell
 gradle bootRun
 ```

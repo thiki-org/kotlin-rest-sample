@@ -2,6 +2,7 @@ package net.thiki.rest.sample.config
 
 import org.springframework.beans.BeansException
 import org.springframework.beans.factory.config.CustomScopeConfigurer
+import org.springframework.boot.SpringBootConfiguration
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.context.MessageSource
@@ -16,8 +17,9 @@ import java.util.*
 
 /**
  */
+@SpringBootConfiguration
 @Configuration
-class ApplicationContextConfig : ApplicationContextAware {
+open class ApplicationContextConfig : ApplicationContextAware {
 
 
     @Throws(BeansException::class)
@@ -33,7 +35,7 @@ class ApplicationContextConfig : ApplicationContextAware {
      * @return
      */
     @Bean
-    fun customScopeConfigurer(): CustomScopeConfigurer {
+    open fun customScopeConfigurer(): CustomScopeConfigurer {
         val bean = CustomScopeConfigurer()
         val scopes = HashMap<String, Any>()
         scopes["thread"] = SimpleThreadScope()
@@ -43,7 +45,7 @@ class ApplicationContextConfig : ApplicationContextAware {
 
 
     @Bean
-    fun mvcConfigurer(): WebMvcConfigurer {
+    open fun mvcConfigurer(): WebMvcConfigurer {
         return object : WebMvcConfigurer {
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry.addMapping("/**").allowedOrigins("*")
@@ -56,7 +58,7 @@ class ApplicationContextConfig : ApplicationContextAware {
 
 
     @Bean
-    fun messageSource(): MessageSource {
+    open fun messageSource(): MessageSource {
         val messageSource = ReloadableResourceBundleMessageSource()
         messageSource.setBasename("classpath:i18n/messages")
         messageSource.setDefaultEncoding("utf-8")
@@ -64,7 +66,7 @@ class ApplicationContextConfig : ApplicationContextAware {
     }
 
     @Bean
-    fun validator(): LocalValidatorFactoryBean {
+    open fun validator(): LocalValidatorFactoryBean {
         val factory = LocalValidatorFactoryBean()
         factory.setValidationMessageSource(messageSource())
         return factory
