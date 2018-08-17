@@ -9,18 +9,6 @@
     <typeAliases>
         <typeAlias alias="LinkedList" type="java.util.LinkedList" />
     </typeAliases>
-    <environments default="development">
-        <environment id="development">
-            <transactionManager type="JDBC"/>
-            <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/db_tms?useUnicode=true&amp;characterEncoding=utf8&amp;allowMultiQueries=true&amp;useSSL=false"/>
-                <property name="username" value="root"/>
-                <property name="password" value="mysql"/>
-            </dataSource>
-        </environment>
-    </environments>
-
     <mappers>
         <mapper resource="mybatis/mapper/issue.xml" />
     </mappers>

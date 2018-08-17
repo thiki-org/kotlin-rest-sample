@@ -1,5 +1,5 @@
 
-
+SET MODE=MYSQL
 DROP TABLE IF EXISTS `tms_issue`;
 
 CREATE TABLE `tms_issue` (

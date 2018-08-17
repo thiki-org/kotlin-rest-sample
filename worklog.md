@@ -6,6 +6,51 @@
 * [ ] add user Resource, GET
 * [ ] add `self` ref to json response(HATEOAS)
 
+## buckrake(low priority tasks)
+
+* [ ] support db version control and migration among multiple type DBs(mysql and h2) automatically.
+
+# 2018-08-17
+
+* [x] use h2 db for integration unit test
+
+## use h2 db for integration unit test
+
+### digging
+
+```
+  java.lang.IllegalStateException: Failed to replace DataSource with an embedded database for tests. If you want an embedded database please put a supported one on the classpath or tune the replace attribute of @AutoConfigureTestDatabase.
+```
+
+[configure the data source for testing](https://www.baeldung.com/spring-testing-separate-data-source)
+
+[Initialize a Database](https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html#howto-initialize-a-database-using-spring-jdbc)
+
+Default file name: schema-${platform}.sql and data-${platform}.sql.
+Here ${platform} should be the value of the property "spring.datasource.platform", like hsqldb, h2, oracle, mysql, postgresql, and so on.
+
+comments in ddl is invalid for h2.
+
+### solution
+
+* add the data source configurations
+  - spring.datasource.initialization-mode: 'always'
+  - spring.datasource.platform: 'h2'
+  - add schema-h2.sql(DDL) and data-h2.sql(DML) in src/test/resources
+* change the DDL and DML sql to be compatible to h2 DB
+  - delete the `COMMENT` in `create table`
+  - delete the `engine` and `default charset` setting in `create table`
+* change the sqlmap(h2 do not support reporter.id in resultset)
+
+  ```diff
+  -            <idArg column="reporter.id" name="id"/>
+  +            <idArg column="reporter_id" name="id"/>
+
+   <sql id="userColumns">
+  -        ${alias}.id,
+  +        ${alias}.id as ${alias}_id,
+   ```
+
 
 # 2018-08-15
 
@@ -73,7 +118,11 @@ dependencies {
 }
 ```
 
-## [flyway: a database migration tool](https://flywaydb.org/)
+## db version control:
+
+[flyway: a database migration tool](https://flywaydb.org/)
+vs
+[liquibase](https://www.liquibase.org/index.html)
 
 # 2018-08-14
 
