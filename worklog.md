@@ -12,6 +12,14 @@
 
 # 2018-08-17
 
+* [x] change the wrong author of commits before
+  - [use git rebase to change the author](https://gist.github.com/trey/9588090)
+  - vim substitution command: ``:[range]s/pattern/string/[c,e,g,i]``
+
+
+
+# 2018-08-17
+
 * [x] use h2 db for integration unit test
 
 ## use h2 db for integration unit test
